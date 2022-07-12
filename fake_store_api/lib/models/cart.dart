@@ -1,10 +1,8 @@
-import 'package:fake_store_api/models/products.dart';
-
 class Cart {
   int? id;
   int? userId;
   DateTime? date;
-  List<Products>? products;
+  List<dynamic>? products;
 
   Cart({
     this.id,
@@ -26,10 +24,8 @@ class Cart {
     return Cart(
       id: json['id'],
       userId: json['userId'],
-      date: json['date'],
+      date: DateTime.parse(json['date']),
       products: json['products'],
     );
   }
-
-
 }

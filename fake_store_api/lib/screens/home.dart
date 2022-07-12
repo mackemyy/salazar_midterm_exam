@@ -32,13 +32,13 @@ class HomeScreen extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.shopping_cart),
-            onPressed: () {},
-            // onPressed: () => Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (_) => CartScreen(),
-            //   ),
-            // ),
+            //onPressed: () {},
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => CartScreen(),
+              ),
+            ),
           ),
         ],
       ),
@@ -64,15 +64,14 @@ class HomeScreen extends StatelessWidget {
                       width: 50,
                     ),
                     subtitle: Text('\$${product.price}'),
-                    onTap: () {},
-                    // onTap: () {
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (_) => ProductDetailScreen(id: product.id!),
-                    //     ),
-                    //   );
-                    // },
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ProductDetailScreen(id: index+1),
+                        ),
+                      );
+                    },
                   );
                 }),
               );

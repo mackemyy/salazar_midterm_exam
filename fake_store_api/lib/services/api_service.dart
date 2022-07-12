@@ -82,16 +82,7 @@ class ApiService {
     }).catchError((err) => print(err));
   }
 
-  // Future<APIResponse<Product>> getProduct(int id) async {
-  //    return http.get(Uri.parse('$baseUrl/products/$id')).then((data) {
-  //     if (data.statusCode == 200) {
-  //       final jsonData = json.decode(data.body);
-  //       return APIResponse<Product>(data: Product.fromJson(jsonData));
-  //     }
-  //     return APIResponse<Product>(error: true,errorMessage: 'An error occured',
-  //     );
-  //   }).catchError((_) => APIResponse<Product>(error: true,errorMessage: 'An error occured',));
-  // }
+
 
   // Future<Cart> updateCart(int userId, int id) async {
   //   return http.put(Uri.parse('$baseUrl/carts/$id'),
@@ -115,34 +106,14 @@ class ApiService {
     }).catchError((err) => print(err));
   }
 
-  // Future<APIResponse<Cart?>> getCart(String userId) async {
-  //   return http.get(Uri.parse('$baseUrl/products/$userId')).then((data) {
-  //     if (data.statusCode == 200) {
-  //       final jsonData = json.decode(data.body);
-  //       return APIResponse<Cart?>(data: Cart.fromJson(jsonData));
-  //     }
-  //     return APIResponse<Cart?>(error: true,errorMessage: 'An error occured',
-  //     );
-  //   }).catchError((_) => APIResponse<Cart?>(error: true,errorMessage: 'An error occured',));
-  
-  // }
-
-  Future<bool> deleteCart(String id) async {
-    return http.delete(Uri.parse('$baseUrl/carts/$id')).then((data) {
-      if (data.statusCode == 204) {
-        return true;
-      }
-      return false;
+  Future<void> deleteCart(String id) async {
+    return http.delete(Uri.parse('$baseUrl/carts/$id'), headers: headers).then((data) {
+     if(data.statusCode == 200) {
+      final jsonData = json.decode(data.body);
+      print(data.statusCode);
+      print(jsonData);
+     }
     }).catchError((err) => print(err));
   }
 
-  //   Future<APIResponse<bool>> deleteCart(String id) async {
-  //   return http.delete(Uri.parse('$baseUrl/carts/$id')).then((data) {
-  //     if (data.statusCode == 204) {
-  //       return APIResponse<bool>(data: true);
-  //     }
-  //     return APIResponse<bool>( error: true,errorMessage: 'An error occured',
-  //     );
-  //   }).catchError((_) => APIResponse<bool>(error: true, errorMessage: 'An error occured'));
-  // }
 }
