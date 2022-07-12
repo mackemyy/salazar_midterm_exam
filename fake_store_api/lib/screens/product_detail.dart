@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../models/product.dart';
 import '../services/api_service.dart';
@@ -8,7 +9,7 @@ class ProductDetailScreen extends StatelessWidget {
   int id;
   ProductDetailScreen({Key? key, required this.id}) : super(key: key);
 
-  ApiService apiService = ApiService();
+  ApiService get service => GetIt.I<ApiService>();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class ProductDetailScreen extends StatelessWidget {
       body: Container(
         margin: const EdgeInsets.all(20),
         child: FutureBuilder(
-          future: apiService.getProduct(id),
+          future: service.getProduct(id),
           builder: (BuildContext context, AsyncSnapshot<Product?> snapshot) {
             if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
@@ -83,15 +84,15 @@ class ProductDetailScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
-        onPressed: (){},
-        // onPressed: () async {
-        //   await updateCart(1, id);
-        //   ScaffoldMessenger.of(context).showSnackBar(
-        //     const SnackBar(
-        //       content: Text('Product added to cart'),
-        //     ),
-        //   );
-        // },
+        //onPressed: (){},
+        onPressed: () async {
+          await service.updateCart(1, id);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Product added to cart'),
+            ),
+          );
+        },
         child: const Icon(Icons.add_shopping_cart),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
