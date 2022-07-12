@@ -1,4 +1,5 @@
 import 'package:fake_store_api/models/product.dart';
+import 'package:fake_store_api/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -9,18 +10,17 @@ class ApiService {
   static const String baseUrl = 'https://fakestoreapi.com';
   static const headers = {'Content-type': 'application/json'};
 
-
-  Future<String> login(String username, String password) async {
-    final credentials = {
-      'username': username,
-      'password': password,
-    };
-    return http.post(Uri.parse('$baseUrl/auth/login'), body: credentials).then((data) {
-      if (data.statusCode == 201) {
+  Future<dynamic> login(String uname, String pword) async {
+    final credentials = User(username: uname, password: pword);
+    return http
+        .post(Uri.parse('$baseUrl/auth/login'),
+            headers: headers, body: json.encode(credentials.toJson()))
+        .then((data) {
+      if (data.statusCode == 200) {
         final jsonData = json.decode(data.body);
         return jsonData;
       }
-      return data.body;
+      return null;
     });
   }
 
@@ -128,4 +128,3 @@ class ApiService {
     }).catchError((err) => print(err));
   }
 }
-
