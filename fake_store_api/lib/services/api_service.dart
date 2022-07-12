@@ -9,13 +9,19 @@ class ApiService {
   static const String baseUrl = 'https://fakestoreapi.com';
   static const headers = {'Content-type': 'application/json'};
 
-  Future login(String username, String password) async {
-    final body = {
+
+  Future<String> login(String username, String password) async {
+    final credentials = {
       'username': username,
       'password': password,
     };
-    final response = await http.post(Uri.parse(baseUrl), body: body);
-    return response.body;
+    return http.post(Uri.parse('$baseUrl/auth/login'), body: credentials).then((data) {
+      if (data.statusCode == 201) {
+        final jsonData = json.decode(data.body);
+        return jsonData;
+      }
+      return data.body;
+    });
   }
 
   Future<List<String>> getAllCategories() async {
@@ -82,7 +88,10 @@ class ApiService {
         CartUpdate(userId: cartId, date: DateTime.now(), products: [
       {'productId': productId, 'quantity': 1}
     ]);
-    return http.put(Uri.parse('$baseUrl/carts/$cartId'), headers: headers,  body: json.encode(cartUpdate.toJson())).then((data) {
+    return http
+        .put(Uri.parse('$baseUrl/carts/$cartId'),
+            headers: headers, body: json.encode(cartUpdate.toJson()))
+        .then((data) {
       if (data.statusCode == 200) {
         final jsonData = json.decode(data.body);
         print(data.statusCode);
@@ -106,7 +115,10 @@ class ApiService {
 
   Future<void> deleteCart(String id) async {
     return http
-        .delete(Uri.parse('$baseUrl/carts/$id'), headers: headers,)
+        .delete(
+      Uri.parse('$baseUrl/carts/$id'),
+      headers: headers,
+    )
         .then((data) {
       if (data.statusCode == 200) {
         final jsonData = json.decode(data.body);
@@ -116,3 +128,4 @@ class ApiService {
     }).catchError((err) => print(err));
   }
 }
+
