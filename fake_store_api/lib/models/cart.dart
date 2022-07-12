@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'cart.g.dart';
+
+@JsonSerializable()
 class Cart {
   int? id;
   int? userId;
@@ -11,21 +16,7 @@ class Cart {
     this.products,
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "userId": userId,
-      "date": date,
-      "products": products,
-    };
-  }
+  Map<String, dynamic> toJson() => _$CartToJson(this);
 
-  factory Cart.fromJson(Map<String, dynamic> json) {
-    return Cart(
-      id: json['id'],
-      userId: json['userId'],
-      date: DateTime.parse(json['date']),
-      products: json['products'],
-    );
-  }
+  factory Cart.fromJson(Map<String, dynamic> json) => _$CartFromJson(json);
 }
