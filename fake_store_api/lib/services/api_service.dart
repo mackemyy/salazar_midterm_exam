@@ -7,6 +7,16 @@ import '../models/cart.dart';
 class ApiService {
   static const String baseUrl = 'https://fakestoreapi.com';
 
+  Future login(String username, String password) async {
+    final body = {
+      'username': username,
+      'password': password,
+    };
+
+    final response = await http.post(Uri.parse(baseUrl), body: body);
+    return response.body;
+  }
+
   Future<List<String>> getAllCategories() async {
     return http.get(Uri.parse('$baseUrl/products/categories')).then((data) {
       final categories = <String>[];
@@ -45,7 +55,7 @@ class ApiService {
   }
 
   // Future<Cart> updateCart(int userId, int id) async {
-  //   return http.put(Uri.parse('$baseUrl/carts/$id'), 
+  //   return http.put(Uri.parse('$baseUrl/carts/$id'),
   //     body: json.encode(id.toJson())).then((data) {
   //     Cart cart = Cart();
   //     if (data.statusCode == 204) {
@@ -55,7 +65,7 @@ class ApiService {
   //   }).catchError((err) => print(err));
   // }
 
-  Future<Cart?> getCart(int userId) async {
+  Future<Cart?> getCart(String userId) async {
     return http.get(Uri.parse('$baseUrl/carts/$userId')).then((data) {
       Cart cart = Cart();
       if (data.statusCode == 200) {
@@ -63,6 +73,15 @@ class ApiService {
         cart = Cart.fromJson(jsonData);
       }
       return cart;
+    }).catchError((err) => print(err));
+  }
+
+  Future<bool> deleteCart(String id) async {
+    return http.delete(Uri.parse('$baseUrl/carts/$id')).then((data) {
+      if (data.statusCode == 204) {
+        return true;
+      }
+    return false;
     }).catchError((err) => print(err));
   }
 }
