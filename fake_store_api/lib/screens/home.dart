@@ -24,11 +24,11 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.view_list),
-            onPressed: () {},
-            // onPressed: () => Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (_) => AllCategoryScreen()),
-            // ),
+            //onPressed: () {},
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => AllCategoryScreen()),
+            ),
           ),
           IconButton(
             icon: const Icon(Icons.shopping_cart),
